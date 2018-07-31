@@ -43,18 +43,20 @@ class ViewNewsRequest extends Request
   {
 
     $perPage = $this->perPage ? intval($this->perPage) : 20;
-    $orderBy = $this->orderBy ? intval($this->orderBy) : 'news_date';
+    $orderBy = $this->orderBy ? $this->orderBy : 'news_date';
+    $order = $this->order ? $this->order : 'desc';
     $news = new News();
     $news->setPerPage($perPage);
+
     $attributes = $news->getAttributes();
     foreach ($attributes as $attribute) {
       if ($this->{$attribute}) {
         $news = $news->where($attribute, $this->{$attribute});
       }
     }
-
-    $news->orderBy($orderBy);
-    return $news->paginate()->toArray();
+    $news = $news->orderBy($orderBy, $order);
+    $result = $news->paginate()->appends($this->getAttributes());
+    return $result->toArray();
   }
 
 

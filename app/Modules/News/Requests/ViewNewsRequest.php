@@ -4,7 +4,6 @@ namespace App\Modules\News\Requests;
 
 use App\Base\Request;
 use App\Models\News;
-use App\Rules\Uppercase;
 
 /**
  * Class AddNewsRequest
@@ -29,8 +28,12 @@ class ViewNewsRequest extends Request
       'perPage',
       'orderBy',
       'order',
-      'news_id' => ['news_id', 'id'],
-      'news_language' => ['language', 'news_language', 'lang'],
+      'news_id'          => ['news_id', 'id'],
+      'news_title'       => ['max:200'],
+      'news_description' => ['max:500'],
+      'news_content'     => ['max:5000'],
+      'news_author'      => ['max:200'],
+      'news_language'    => ['language', 'news_language', 'lang'],
     ];
   }
 
@@ -41,22 +44,9 @@ class ViewNewsRequest extends Request
    */
   public function process()
   {
-
-    $perPage = $this->perPage ? intval($this->perPage) : 20;
-    $orderBy = $this->orderBy ? $this->orderBy : 'news_date';
-    $order = $this->order ? $this->order : 'desc';
     $news = new News();
-    $news->setPerPage($perPage);
+    return $news->pagination($this)->toArray();
 
-    $attributes = $news->getAttributes();
-    foreach ($attributes as $attribute) {
-      if ($this->{$attribute}) {
-        $news = $news->where($attribute, $this->{$attribute});
-      }
-    }
-    $news = $news->orderBy($orderBy, $order);
-    $result = $news->paginate()->appends($this->getAttributes());
-    return $result->toArray();
   }
 
 

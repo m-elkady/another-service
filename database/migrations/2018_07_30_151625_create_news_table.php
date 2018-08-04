@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateNewsTable extends Migration
 {
@@ -21,7 +21,6 @@ class CreateNewsTable extends Migration
             $table->string('news_author',200);
             $table->string('news_date',20);
             $table->string('news_language',2);
-            $table->timestamps();
         });
     }
 

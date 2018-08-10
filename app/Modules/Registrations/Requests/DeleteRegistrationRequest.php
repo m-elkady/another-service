@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Modules\News\Requests;
+namespace App\Modules\Registrations\Requests;
 
 use App\Base\Request;
-use App\Modules\News\Models\News;
+use App\Modules\Registrations\Models\Registration;
 
 /**
  * Class AddNewsRequest
  * @package App\Modules\News\Requests
  * @author Mohammed Elkady <m.elkady365@gmail.com>
  */
-class DeleteNewsRequest extends Request
+class DeleteRegistrationRequest extends Request
 {
 
   function __construct()
   {
     $this->rules = [
-      'news_id' => ['required', 'numeric'],
+      'register_code' => ['required'],
     ];
   }
 
@@ -28,7 +28,7 @@ class DeleteNewsRequest extends Request
   public function attributes()
   {
     return [
-      'news_id' => ['id', 'news_id'],
+      'register_code' => ['id', 'code'],
     ];
   }
 
@@ -39,9 +39,9 @@ class DeleteNewsRequest extends Request
    */
   public function process()
   {
-    $news = News::findOrFail($this->news_id);
+    $registration = Registration::findOrFail($this->register_code);
 
-    return $news->delete();
+    return $registration->delete();
   }
 
 

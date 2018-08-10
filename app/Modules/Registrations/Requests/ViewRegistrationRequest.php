@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Modules\News\Requests;
+namespace App\Modules\Registrations\Requests;
 
 use App\Base\Request;
-use App\Modules\News\Models\News;
+use App\Modules\Registrations\Models\Registration;
 
 /**
  * Class AddNewsRequest
  * @package App\Modules\News\Requests
  * @author Mohammed Elkady <m.elkady365@gmail.com>
  */
-class DeleteNewsRequest extends Request
+class ViewRegistrationRequest extends Request
 {
-
   function __construct()
   {
-    $this->rules = [
-      'news_id' => ['required', 'numeric'],
-    ];
+    $this->rules = [];
   }
 
   /**
@@ -28,20 +25,22 @@ class DeleteNewsRequest extends Request
   public function attributes()
   {
     return [
-      'news_id' => ['id', 'news_id'],
+      'perPage',
+      'orderBy',
+      'order',
+      'register_email' => ['mail', 'email', 'address', 'user_email', 'user_mail', 'user_address'],
+      'register_code'  => ['code', 'validation'],
     ];
   }
 
   /**
-   * Delete News Item
+   * Get News Item
    * @return array
    * @author Mohammed Elkady <m.elkady365@gmail.com>
    */
   public function process()
   {
-    $news = News::findOrFail($this->news_id);
-
-    return $news->delete();
+    return Registration::pagination($this)->toArray();
   }
 
 

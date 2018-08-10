@@ -3,7 +3,7 @@
 namespace App\Modules\News\Requests;
 
 use App\Base\Request;
-use App\Models\News;
+use App\Modules\News\Models\News;
 
 /**
  * Class AddNewsRequest
@@ -44,9 +44,7 @@ class ViewNewsRequest extends Request
    */
   public function process()
   {
-    $news = new News();
-    return $news->pagination($this)->toArray();
-
+    return News::pagination($this)->toArray();
   }
 
 

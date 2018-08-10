@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\News\Models;
+
+use App\Models\AppModel;
 
 class News extends AppModel
 {

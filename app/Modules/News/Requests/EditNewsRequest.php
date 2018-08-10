@@ -3,7 +3,7 @@
 namespace App\Modules\News\Requests;
 
 use App\Base\Request;
-use App\Models\News;
+use App\Modules\News\Models\News;
 use App\Rules\Uppercase;
 
 /**

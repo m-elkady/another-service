@@ -30,7 +30,7 @@ class HttpException extends BaseException
     {
         $this->title = $title ?: $this->title;
         $this->status = $status;
-        $this->detail = $detail ?: $this->title;
+        $this->detail = $detail ?: $this->detail;
         $this->trace = $trace ?: $trace;
 
         parent::__construct($this->detail);

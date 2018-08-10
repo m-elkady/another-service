@@ -48,6 +48,8 @@ $app->singleton(
   App\Console\Kernel::class
 );
 
+$app->configure('adldap');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -79,6 +81,7 @@ $app->singleton(
 */
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\ModulesServiceProvider::class);
+$app->register(Adldap\Laravel\AdldapServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 

@@ -31,14 +31,6 @@ class AppModel extends Model {
       }
     }
 
-    if ($from) {
-      $query->where('user_date', '>=', $from);
-    }
-    if ($to) {
-      $query->where('user_date', '<=', $value);
-    }
-
-
     $query->orderBy($orderBy, $order);
     return $query->paginate()->appends($request->getAttributes());
   }

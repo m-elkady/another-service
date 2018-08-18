@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Modules\Users\Controllers;
+namespace App\Modules\Groups\Controllers;
 
-use App\Modules\Users\Requests\DeleteUserRequest;
-use App\Modules\Users\Requests\EditUserRequest;
-use App\Modules\Users\Requests\ViewUserRequest;
+use App\Modules\Groups\Requests\DeleteUserGroupRequest;
+use App\Modules\Groups\Requests\ViewUserGroupRequest;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
-use App\Modules\Users\Requests\AddUserRequest;
-use App\Modules\Users\Requests\BcomputeUserRequest;
+use App\Modules\Groups\Requests\AddUserGroupRequest;
 
 
-class UsersController extends Controller
+class UserGroupsController extends Controller
 {
 
   /** @var Request $request */
   protected $request;
 
   /**
-   * UsersController constructor.
+   * UserGroupsController constructor.
    * @param Request $request
    * @author Mohammed Elkady <m.elkady365@gmail.com>
    */
@@ -33,11 +31,10 @@ class UsersController extends Controller
   public function index()
   {
     $data = $this->request->all();
-    $request = new ViewUserRequest();
+    $request = new ViewUserGroupRequest();
     return $request->load($data)->process();
 
   }
-
 
   /**
    * @return array
@@ -47,19 +44,7 @@ class UsersController extends Controller
   public function add()
   {
     $data = $this->request->all();
-    $request = new AddUserRequest();
-    return $request->load($data)->validate()->process();
-  }
-
-  /**
-   * @return array
-   * @throws \App\Base\Exceptions\InternalErrorException
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function edit()
-  {
-    $data = $this->request->all();
-    $request = new EditUserRequest();
+    $request = new AddUserGroupRequest();
     return $request->load($data)->validate()->process();
   }
 
@@ -70,7 +55,7 @@ class UsersController extends Controller
   public function view()
   {
     $data = $this->request->all();
-    $request = new ViewUserRequest();
+    $request = new ViewUserGroupRequest();
     return $request->load($data)->process();
   }
 
@@ -81,20 +66,9 @@ class UsersController extends Controller
   public function delete()
   {
     $data = $this->request->all();
-    $request = new DeleteUserRequest();
+    $request = new DeleteUserGroupRequest();
     $response = $request->load($data)->validate()->process();
     return response(['response' => $response]);
-  }
-
-  /**
-   * @return void
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function bcompute()
-  {
-    $data = $this->request->all();
-    $request = new BcomputeUserRequest();
-    return $request->load($data)->validate()->process();
   }
 
 

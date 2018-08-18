@@ -2,12 +2,14 @@
 
 namespace App\Base;
 
+use Alfheim\Sanitizer\Sanitizer;
 
 abstract class Request
 {
   use Failable;
   public $thisAttributes = [];
   public $rules = [];
+  public $sanitize = [];
   public $messages = [];
 
   abstract public function attributes();
@@ -77,7 +79,10 @@ abstract class Request
    */
   public function setAttribute(string $attribute, $value)
   {
-    if (in_array($attribute, $this->attributes())) {
+    $attributes = $this->attributes();
+    if (in_array($attribute, $attributes)) {
+      $this->thisAttributes[$attribute] = $value;
+    } elseif (in_array($attribute, array_keys($attributes))) {
       $this->thisAttributes[$attribute] = $value;
     }
 
@@ -91,9 +96,7 @@ abstract class Request
    */
   public function getAttribute(string $attribute)
   {
-    $value = $this->thisAttributes[$attribute] ? $this->thisAttributes[$attribute] : null;
-
-    return $value;
+    return $this->thisAttributes[$attribute] ? $this->thisAttributes[$attribute] : null;
   }
 
   /**
@@ -167,6 +170,17 @@ abstract class Request
     }
 
     return $this;
+  }
+
+  public function sanitize($data)
+  {
+    //skip validation if rules are empty
+    if (empty($this->sanitize)) {
+      return $this;
+    }
+
+    $sanitizer = Sanitizer::make($this->sanitize);
+    return $sanitizer->sanitize($data);
   }
 
 

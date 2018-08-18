@@ -14,5 +14,7 @@ foreach ($prefixes as $prefix) {
     $router->delete('/{action:delete|remove|del|destroy}', 'UsersController@delete');
     $router->get('/{action:select|list|view|search}', 'UsersController@view');
     $router->post('/{action:select|list|view|search}', 'UsersController@view');
+    $router->post('/{action:bcompute}', 'UsersController@bcompute');
+    $router->get('/{action:bcompute}', 'UsersController@bcompute');
   });
 }

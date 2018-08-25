@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Modules\Groups\Requests;
+namespace App\Modules\Grants\Requests;
 
 use App\Base\Request;
-use App\Modules\Group\Models\Group;
+use App\Modules\Grants\Models\Grant;
 
 /**
- * Class AddGroupRequest
- * @package App\Modules\Groups\Requests
+ * Class EditGrantRequest
+ * @package App\Modules\Grants\Requests
  * @author Mohammed Elkady <m.elkady365@gmail.com>
  */
-class EditGroupRequest extends Request
+class EditGrantRequest extends Request
 {
     public function __construct()
     {
         $this->rules = [
-      'group_id' => ['required', 'numeric'],
-      'group_name' => ['required', 'min:3', 'max:30'],
+      'grant_id' => ['required', 'numeric'],
+      'grant_name' => ['max:30'],
     ];
     }
 
@@ -28,32 +28,32 @@ class EditGroupRequest extends Request
     public function attributes()
     {
         return [
-      'group_id' => ['group_id', 'id', 'gid'],
-      'group_name' => ['group', 'name', 'group_name']
-    ];
+        'grant_id' => ['id', 'grant_id', 'gid'],
+        'grant_name' => ['grant', 'name', 'grant_name'],
+      ];
     }
 
     /**
-     * Edit Group Item
+     * Edit Grant Item
      * @return array
      * @throws \App\Base\Exceptions\InternalErrorException
      * @author Mohammed Elkady <m.elkady365@gmail.com>
      */
     public function process()
     {
-        $group = Group::findOrFail($this->group_id);
+        $grant = Grant::findOrFail($this->grant_id);
         $attributes = $this->getAttributes();
-        unset($attributes['group_id']);
+        unset($attributes['grant_id']);
 
         foreach ($attributes as $attribute => $value) {
             if (isset($value)) {
-                $group->{$attribute} = $value;
+                $grant->{$attribute} = $value;
             }
         }
-        if (!$group->update()) {
+        if (!$grant->update()) {
             $this->errorInternal();
         }
 
-        return $group->toArray();
+        return $grant->toArray();
     }
 }

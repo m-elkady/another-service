@@ -13,10 +13,9 @@ use App\Rules\Uppercase;
  */
 class EditNewsRequest extends Request
 {
-
-  function __construct()
-  {
-    $this->rules = [
+    public function __construct()
+    {
+        $this->rules = [
       'news_id' => ['required', 'numeric'],
       'news_title' => ['max:200'],
       'news_description' => ['max:500'],
@@ -24,16 +23,16 @@ class EditNewsRequest extends Request
       'news_author' => ['max:200'],
       'news_language' => ['min:2', 'max:2', new Uppercase()],
     ];
-  }
+    }
 
-  /**
-   *
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function attributes()
-  {
-    return [
+    /**
+     *
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function attributes()
+    {
+        return [
       'news_id' => ['news_id', 'id'],
       'news_title' => ['title', 'news_title'],
       'news_description' => ['description', 'news_description'],
@@ -41,31 +40,29 @@ class EditNewsRequest extends Request
       'news_author' => ['author', 'news_author'],
       'news_language' => ['language', 'news_language', 'lang'],
     ];
-  }
-
-  /**
-   * Create News Item
-   * @return array
-   * @throws \App\Base\Exceptions\InternalErrorException
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function process()
-  {
-    $news = News::findOrFail($this->news_id);
-    $attributes = $this->getAttributes();
-    unset($attributes['news_id']);
-
-    foreach ($attributes as $attribute => $value) {
-      if(isset($value)){
-        $news->{$attribute} = $value;
-      }
-    }
-    if (!$news->update()) {
-      $this->errorInternal();
     }
 
-    return $news->toArray();
-  }
+    /**
+     * Create News Item
+     * @return array
+     * @throws \App\Base\Exceptions\InternalErrorException
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function process()
+    {
+        $news = News::findOrFail($this->news_id);
+        $attributes = $this->getAttributes();
+        unset($attributes['news_id']);
 
+        foreach ($attributes as $attribute => $value) {
+            if (isset($value)) {
+                $news->{$attribute} = $value;
+            }
+        }
+        if (!$news->update()) {
+            $this->errorInternal();
+        }
 
+        return $news->toArray();
+    }
 }

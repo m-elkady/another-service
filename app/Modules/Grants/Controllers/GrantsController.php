@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Modules\News\Controllers;
+namespace App\Modules\Grants\Controllers;
 
-use App\Modules\News\Requests\DeleteNewsRequest;
-use App\Modules\News\Requests\EditNewsRequest;
-use App\Modules\News\Requests\ViewNewsRequest;
+use App\Modules\Grants\Requests\DeleteGrantRequest;
+use App\Modules\Grants\Requests\EditGrantRequest;
+use App\Modules\Grants\Requests\ViewGrantRequest;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
-use App\Modules\News\Requests\AddNewsRequest;
+use App\Modules\Grants\Requests\AddGrantRequest;
 
-class NewsController extends Controller
+class GrantsController extends Controller
 {
 
   /** @var Request $request */
     protected $request;
 
     /**
-     * NewsController constructor.
+     * GrantsController constructor.
      * @param Request $request
      * @author Mohammed Elkady <m.elkady365@gmail.com>
      */
@@ -31,7 +31,7 @@ class NewsController extends Controller
     public function index()
     {
         $data = $this->request->all();
-        $request = new ViewNewsRequest();
+        $request = new ViewGrantRequest();
         return $request->load($data)->process();
     }
 
@@ -43,7 +43,7 @@ class NewsController extends Controller
     public function add()
     {
         $data = $this->request->all();
-        $request = new AddNewsRequest();
+        $request = new AddGrantRequest();
         return $request->load($data)->validate()->process();
     }
 
@@ -55,7 +55,7 @@ class NewsController extends Controller
     public function edit()
     {
         $data = $this->request->all();
-        $request = new EditNewsRequest();
+        $request = new EditGrantRequest();
         return $request->load($data)->validate()->process();
     }
 
@@ -66,7 +66,7 @@ class NewsController extends Controller
     public function view()
     {
         $data = $this->request->all();
-        $request = new ViewNewsRequest();
+        $request = new ViewGrantRequest();
         return $request->load($data)->process();
     }
 
@@ -77,7 +77,7 @@ class NewsController extends Controller
     public function delete()
     {
         $data = $this->request->all();
-        $request = new DeleteNewsRequest();
+        $request = new DeleteGrantRequest();
         $response = $request->load($data)->validate()->process();
         return response(['response' => $response]);
     }

@@ -12,23 +12,22 @@ use App\Modules\Users\Models\User;
  */
 class ViewUserRequest extends Request
 {
-
-  function __construct()
-  {
-    $this->rules = [];
-    $this->sanitize = [
+    public function __construct()
+    {
+        $this->rules = [];
+        $this->sanitize = [
       'user_name' => ['preg_split:/\s*(,|;|\s)\s*/:{{ VALUE }}']
     ];
-  }
+    }
 
-  /**
-   *
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function attributes()
-  {
-    return [
+    /**
+     *
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function attributes()
+    {
+        return [
       'perPage' => ['count'],
       'orderBy' => ['order'],
       'order' => ['order_type'],
@@ -37,50 +36,49 @@ class ViewUserRequest extends Request
       'to',
       'group'
     ];
-  }
+    }
 
-  /**
-   * Get User Item
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function process()
-  {
-    $this->setAttributes($this->sanitize($this->getAttributes()));
-    $user = new User();
-    $perPage = $this->perPage ? intval($this->perPage) : 5;
-    $orderBy = $this->orderBy ? $this->orderBy : 'user_date';
-    $order = $this->order ? $this->order : 'DESC';
-    $from = $this->from;
-    $to = $this->to;
-    $user->setPerPage($perPage);
+    /**
+     * Get User Item
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function process()
+    {
+        $this->setAttributes($this->sanitize($this->getAttributes()));
+        $user = new User();
+        $perPage = $this->perPage ? intval($this->perPage) : 5;
+        $orderBy = $this->orderBy ? $this->orderBy : 'user_date';
+        $order = $this->order ? $this->order : 'DESC';
+        $from = $this->from;
+        $to = $this->to;
+        $user->setPerPage($perPage);
 
-    $usernames = is_array($this->user_name) ? $this->user_name : [$this->username];
+        $usernames = is_array($this->user_name) ? $this->user_name : [$this->username];
 
-    $user = $user->where(function ($query) use ($usernames) {
-      foreach ($usernames as $name) {
-        if (is_numeric($name)) {
-          $query = $query->orWhere('user_id', $name);
-        } else {
-          $query = $query->orWhere('user_name', 'LIKE', "%$name%");
+        $user = $user->where(function ($query) use ($usernames) {
+            foreach ($usernames as $name) {
+                if (is_numeric($name)) {
+                    $query = $query->orWhere('user_id', $name);
+                } else {
+                    $query = $query->orWhere('user_name', 'LIKE', "%$name%");
+                }
+            }
+        });
+
+        if ($from) {
+            $user = $user->where('user_date', '>=', $from);
         }
-      }
-    });
+        if ($to) {
+            $user = $user->where('user_date', '<=', $value);
+        }
 
-    if ($from) {
-      $user = $user->where('user_date', '>=', $from);
+        if ($this->group) {
+            $user = $user->groupBy($this->group);
+        }
+
+
+        $user->orderBy($orderBy, $order);
+        return $user->paginate()->appends($this->getAttributes());
     }
-    if ($to) {
-      $user = $user->where('user_date', '<=', $value);
-    }
-
-    if ($this->group) {
-      $user = $user->groupBy($this->group);
-    }
-
-
-    $user->orderBy($orderBy, $order);
-    return $user->paginate()->appends($this->getAttributes());
-  }
-
 }

@@ -12,19 +12,19 @@ use App\Modules\News\Models\News;
  */
 class ViewNewsRequest extends Request
 {
-  function __construct()
-  {
-    $this->rules = [];
-  }
+    public function __construct()
+    {
+        $this->rules = [];
+    }
 
-  /**
-   *
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function attributes()
-  {
-    return [
+    /**
+     *
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function attributes()
+    {
+        return [
       'perPage',
       'orderBy',
       'order',
@@ -35,17 +35,15 @@ class ViewNewsRequest extends Request
       'news_author'      => ['max:200'],
       'news_language'    => ['language', 'news_language', 'lang'],
     ];
-  }
+    }
 
-  /**
-   * Get News Item
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function process()
-  {
-    return News::pagination($this)->toArray();
-  }
-
-
+    /**
+     * Get News Item
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function process()
+    {
+        return News::pagination($this)->toArray();
+    }
 }

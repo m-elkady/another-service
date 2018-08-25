@@ -6,14 +6,14 @@ use App\Models\AppModel;
 
 class News extends AppModel
 {
-  protected $table = 'news';
+    protected $table = 'news';
 
-  protected $primaryKey = 'news_id';
-  public $perPage = 5;
-  public $orderBy = 'news_date';
-  public $order = 'desc';
+    protected $primaryKey = 'news_id';
+    public $perPage = 5;
+    public $orderBy = 'news_date';
+    public $order = 'desc';
 
-  protected $attributes = [
+    protected $attributes = [
     'news_id',
     'news_title',
     'news_description',
@@ -23,12 +23,12 @@ class News extends AppModel
     'news_language'
   ];
 
-  protected static function boot()
-  {
-    parent::boot();
-    static::creating(function ($model) {
-      $model->attributes['news_date'] = time();
-      return true;
-    });
-  }
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->attributes['news_date'] = time();
+            return true;
+        });
+    }
 }

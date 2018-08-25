@@ -12,37 +12,34 @@ use App\Modules\Registrations\Models\Registration;
  */
 class DeleteRegistrationRequest extends Request
 {
-
-  function __construct()
-  {
-    $this->rules = [
+    public function __construct()
+    {
+        $this->rules = [
       'register_code' => ['required'],
     ];
-  }
+    }
 
-  /**
-   *
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function attributes()
-  {
-    return [
+    /**
+     *
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function attributes()
+    {
+        return [
       'register_code' => ['id', 'code'],
     ];
-  }
+    }
 
-  /**
-   * Delete News Item
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function process()
-  {
-    $registration = Registration::findOrFail($this->register_code);
+    /**
+     * Delete News Item
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function process()
+    {
+        $registration = Registration::findOrFail($this->register_code);
 
-    return $registration->delete();
-  }
-
-
+        return $registration->delete();
+    }
 }

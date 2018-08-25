@@ -12,36 +12,34 @@ use App\Modules\Registrations\Models\Registration;
  */
 class ViewRegistrationRequest extends Request
 {
-  function __construct()
-  {
-    $this->rules = [];
-  }
+    public function __construct()
+    {
+        $this->rules = [];
+    }
 
-  /**
-   *
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function attributes()
-  {
-    return [
+    /**
+     *
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function attributes()
+    {
+        return [
       'perPage',
       'orderBy',
       'order',
       'register_email' => ['mail', 'email', 'address', 'user_email', 'user_mail', 'user_address'],
       'register_code'  => ['code', 'validation'],
     ];
-  }
+    }
 
-  /**
-   * Get News Item
-   * @return array
-   * @author Mohammed Elkady <m.elkady365@gmail.com>
-   */
-  public function process()
-  {
-    return Registration::pagination($this)->toArray();
-  }
-
-
+    /**
+     * Get News Item
+     * @return array
+     * @author Mohammed Elkady <m.elkady365@gmail.com>
+     */
+    public function process()
+    {
+        return Registration::pagination($this)->toArray();
+    }
 }
